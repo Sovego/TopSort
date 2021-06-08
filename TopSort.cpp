@@ -64,7 +64,7 @@ void insert_elem(int key)
 	}
 }
 
-void addChild(Node* current, int key)
+void SetPair(Node* current, int key)
 {
 	if (current != nullptr)
 	{
@@ -75,11 +75,21 @@ void addChild(Node* current, int key)
 		}
 		else
 		{
-			while (temp->child->childnext != nullptr)
+			
+			if (temp->child->childnext == nullptr)
 			{
-				temp->child = temp->child->childnext;
+				temp->child->childnext = new ChildNode(key);
 			}
-			temp->child->childnext = new ChildNode(key);
+			else
+			{
+				ChildNode* temp2 = temp->child->childnext;
+				while (temp2->childnext != nullptr)
+			{
+				temp2 = temp2->childnext;
+			}
+				temp2->childnext = new ChildNode(key);
+			}
+			
 		}
 		find(key)->count += 1;
 	}
@@ -121,7 +131,7 @@ auto find_min_elem() -> Node*
 	{
 		return nullptr;
 	}
-	min = current->key;
+	
 
 	min = current->key;
 	current = front;
@@ -183,7 +193,7 @@ void printGraph()
 		Node* current = front;
 		while (current != nullptr)
 		{
-			std::cout << current->key << ':' << CountChild(current) << ':' << current->count << ' ';
+			std::cout << current->key << "\t";
 			current = current->next;
 		}
 		std::cout << std::endl;
@@ -200,7 +210,7 @@ auto main() -> int
 	std::cin >> to;
 	front = new Node(from);
 	insert_elem(to);
-	addChild(front, to);
+	SetPair(front, to);
 	std::cout << "For stop enter 00 " << std::endl;
 	while (true)
 	{
@@ -220,7 +230,7 @@ auto main() -> int
 		insert_elem(to);
 		if (from != to)
 		{
-			addChild(find(from), to);
+			SetPair(find(from), to);
 		}
 	}
 	printGraph();
