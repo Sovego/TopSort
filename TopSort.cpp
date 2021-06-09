@@ -167,6 +167,10 @@ void topSort()
 			temp->count = -1;
 			std::cout << temp->key << ' ';
 		}
+		if (front->count!=-1)
+		{
+			std::cout << "your graph has circle ";
+		}
 	}
 }
 
